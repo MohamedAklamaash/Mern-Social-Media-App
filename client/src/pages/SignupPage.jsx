@@ -3,7 +3,6 @@ import React from 'react'
 const SignupPage = () => {
   return (
     <div>
-      {" "}
       <main className="flex">
         <div className="flex-[1] flex items-center justify-center h-[100vh] text-blue-600 font-semibold text-4xl font-sans">
           Social Media
@@ -23,6 +22,7 @@ const SignupPage = () => {
               className="w-[80%] mb-4 rounded-full p-4"
             />
           </form>
+          <button type="submit" className='p-4 text-lg font-sans rounded-ful'>Submit</button>
         </div>
       </main>
     </div>

@@ -6,6 +6,7 @@ import SignupPage from "./pages/SignupPage";
 import Navbar from "./utils/Navbar";
 import Footer from "./utils/Footer";
 import ErrorHandlingPage from "./components/ErrorHandlingPage";
+import ProfilePage from "./pages/ProfilePage";
 const App = () => {
   return (
     <div className="">
@@ -16,8 +17,8 @@ const App = () => {
           <Route element={<LoginPage />} path="/login" />
           <Route element={<SignupPage />} path="/signUp" />
           <Route element={<ErrorHandlingPage />} path="*" />
+          <Route element={<ProfilePage/>} path="/profilepage"/>
         </Routes>
-        
       </Router>
     </div>
   );

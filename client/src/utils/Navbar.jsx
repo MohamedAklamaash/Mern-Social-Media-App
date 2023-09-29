@@ -3,12 +3,14 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import ChatIcon from "@mui/icons-material/Chat";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <div>
-      <header className="p-3 bg-blue-600 h-[6.7vmin] flex items-center justify-between text-white font-semibold ">
+      <header className="p-3 bg-blue-600 h-[6.7vmin] flex items-center justify-between text-white font-semibold max-md:hidden ">
         <div>
-          <h1 className="text-xl cursor-pointer">Social-Media</h1>
+          <h1 className="text-xl cursor-pointer" onClick={()=>navigate("/")}  >Social-Media</h1>
         </div>
         <div className="relative">
           <input
@@ -40,6 +42,7 @@ const Navbar = () => {
           <img
             src="https://avatars.githubusercontent.com/u/111295679?v=4"
             alt="Profile Pic"
+            onClick={()=>navigate("/profilePage")}
             className="w-10 h-10 rounded-full object-cover cursor-pointer"
           />
         </div>
