@@ -18,7 +18,7 @@ const UserProfileCover = () => {
         <h2 className="text-lg font-semibold">Mohamed Aklamaash</h2>
         <p className="text-lg">Hello My Friends</p>
       </div>
-      <div className="">
+      <div className="p-4">
         <div className="flex p-4 items-center justify-center">
           <h1 className="font-bold">User Information</h1>,
           <h1>
