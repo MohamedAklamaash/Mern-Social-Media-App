@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const userRoutes = require("./routes/userRoutes");
 const postsRoutes = require("./routes/postRoutes");
+const convoRoutes = require("./routes/ConversationRoutes");
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cors());
@@ -14,7 +15,7 @@ app.use(morgan("common"));
 
 app.use("/api/users",userRoutes);
 app.use("/api/posts",postsRoutes);
-
+app.use("/api/chat",convoRoutes);
 const mongoConnection = require("./mongoConnection")();
 
 app.listen(process.env.port,()=>{
