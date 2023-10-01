@@ -2,7 +2,7 @@ import React from 'react'
 
 const OnlineFriends = () => {
   return (
-    <div className='mb-4'>
+    <div className='flex-[1] mb-4'>
       {" "}
       <div className="relative flex items-center justify-evenly ">
         <img
@@ -10,7 +10,7 @@ const OnlineFriends = () => {
           alt="Online Friend"
           className="w-16 rounded-full h-16 "
         />
-        <button className="bg-green-500 w-6 h-6 rounded-full ml-[-113px] mt-[-30px] ring-2 ring-white absolute"></button>
+        <button className="bg-green-500 w-6 h-6 rounded-full ml-[-133px] mt-[-30px] ring-2 ring-white absolute"></button>
         <span>Mohamed Aklamaash</span>
       </div>
     </div>
