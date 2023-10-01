@@ -14,7 +14,7 @@ const App = () => {
   
   return (
     <div className="">
-      {/* <Provider store={store}> */}
+      <Provider store={store}>
         <Router>
           <Navbar />
           <Routes>
@@ -26,7 +26,7 @@ const App = () => {
             <Route element={<ProfilePage />} path="/profilepage" />
           </Routes>
         </Router>
-      {/* </Provider> */}
+      </Provider>
     </div>
   );
 };

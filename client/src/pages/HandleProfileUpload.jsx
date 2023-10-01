@@ -1,10 +1,10 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect, useMemo} from 'react';
 import axios from "axios";
 import dummyLogo from "../assets/dummyLogo.jpeg";
 import { useDispatch } from 'react-redux';
 import { setProfileUrl } from '../store/StoreSlices/userSlice';
 const HandleProfileUpload = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [image, setimage] = useState("");
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,7 +26,7 @@ const HandleProfileUpload = () => {
       );
       const imageUrl = response?.data?.secure_url;
       setUrl(imageUrl);
-      // dispatch(setProfileUrl(url));
+      dispatch(setProfileUrl(url));
       console.log("Image URL:",url);
       setPreview(imageUrl);
       setLoading(false);
@@ -35,7 +35,6 @@ const HandleProfileUpload = () => {
       setLoading(false);        
     }
   }
-
   return (
     <div className="flex items-center justify-center">
       {image === "" ? (
