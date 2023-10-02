@@ -26,8 +26,8 @@ const HandleProfileUpload = () => {
       );
       const imageUrl = response?.data?.secure_url;
       setUrl(imageUrl);
-      dispatch(setProfileUrl(url));
-      console.log("Image URL:",url);
+      console.log(imageUrl);
+      dispatch(setProfileUrl(imageUrl));
       setPreview(imageUrl);
       setLoading(false);
     } catch (error) {

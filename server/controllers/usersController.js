@@ -2,8 +2,9 @@ const userSchema = require("../models/userSchema");
 const bcrpypt = require("bcryptjs");
 
 const createUser = async (req, res) => {
-  const { userName, password, email } = req.body;
+  const { userName, password, email ,profilePicture } = req.body;
   const user = await userSchema.create({
+    profilePicture,
     userName,
     password,
     email,

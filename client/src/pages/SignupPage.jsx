@@ -1,29 +1,40 @@
-import React,{useState,useMemo} from 'react';
+import React, { useState, useMemo } from "react";
 import HandleProfileUpload from "./HandleProfileUpload";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { setUserData } from "../store/StoreSlices/userSlice";
 const SignupPage = () => {
+  const { profileUrl } = useSelector((state) => state.user);
   const [userName, setuserName] = useState("");
+  const dispath = useDispatch();
   const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-const handleSubmit = async () => {
-  if (userName === "" || password === "") {
-    alert("Invalid UserName or Password");
-    return;
-  }
-  try {
-     const req = await axios.post("http://localhost:8001/api/users/createUser",{
-      userName,
-      email,
-      password
-     });
-     const data = req.data;
-     console.log(data);
-  } catch (error) {
-    
-  }
-};
+  const handleSubmit = async () => {
+    if (userName === "" || password === "") {
+      alert("Invalid UserName or Password");
+      return;
+    }
+    try {
+      console.log(profileUrl);
+      const profileUrl = profileUrl[0];
+      const req = await axios.post(
+        "http://localhost:8001/api/users/createUser",
+        {
+          profileUrl,
+          userName,
+          email,
+          password,
+        }
+      );
+      const data = req.data;
+      dispath(setUserData(data.user));
+      console.log(data.user);
+
+      navigate("/");
+    } catch (error) {}
+  };
 
   return (
     <div>
@@ -67,6 +78,6 @@ const handleSubmit = async () => {
       </main>
     </div>
   );
-}
+};
 
-export default SignupPage
+export default SignupPage;

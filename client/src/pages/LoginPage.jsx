@@ -19,7 +19,8 @@ const LoginPage = () => {
         localStorage.setItem("userId",data.user._id);
         navigate("/")
     } catch (error) {
-      
+      console.log("Error in login Page")
+      navigate("/login");
     }
   };
 
