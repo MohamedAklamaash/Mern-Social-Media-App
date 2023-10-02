@@ -1,36 +1,32 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { setUserData } from '../store/StoreSlices/userSlice';
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import { setUserData } from "../store/StoreSlices/userSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setemail] = useState("");
   const dispatch = useDispatch();
   const [password, setpassword] = useState("");
   const HandleLogin = async () => {
-    const data = await fetch("http://localhost:8001/api/users/loginUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    }).catch(() => {
-      alert("Invalid Credentials");
-    });
-    const json = await data.json();
-    console.log(json);
-
-    if (!json.success) {
-      alert("Enter Valid Credentials");
-    } else {
-      alert("User Logged SuccessFully!!");
-      navigate("/");
+    try {
+        const res = await axios.post("http://localhost:8001/api/users/loginUser",{
+          email,
+          password
+        });
+        const data = res.data;
+        dispatch(setUserData(data.user));
+        localStorage.setItem("userId",data.user._id);
+        navigate("/")
+    } catch (error) {
+      
     }
   };
+
   useEffect(()=>{
     HandleLogin();
   },[])
+
   return (
     <div>
       <main className="flex">
@@ -44,23 +40,27 @@ const LoginPage = () => {
               type="email"
               placeholder="akla123@gmail.com"
               className="w-[80%] mb-4 rounded-full p-4"
-              onChange={(event)=>setemail(event.target.value)}
+              onChange={(event) => setemail(event.target.value)}
             />
             <label>Enter Your Password:</label>
             <input
               type="password"
               placeholder="pass"
               className="w-[80%] mb-4 rounded-full p-4"
-              onChange={(event)=>setpassword(event.target.value)}
+              onChange={(event) => setpassword(event.target.value)}
             />
           </form>
-          <button type="submit" className="p-4 text-lg font-sans rounded-full" onClick={HandleLogin}>
+          <button
+            type="button"
+            className="p-4 text-lg font-sans rounded-full"
+            onClick={HandleLogin}
+          >
             Submit
           </button>
         </div>
       </main>
     </div>
   );
-}
+};
 
-export default LoginPage
+export default LoginPage;

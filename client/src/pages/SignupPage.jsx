@@ -1,6 +1,7 @@
 import React,{useState,useMemo} from 'react';
 import HandleProfileUpload from "./HandleProfileUpload";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 const SignupPage = () => {
   const [userName, setuserName] = useState("");
   const navigate = useNavigate();
@@ -11,7 +12,17 @@ const handleSubmit = async () => {
     alert("Invalid UserName or Password");
     return;
   }
-  // Continue with your form submission logic here
+  try {
+     const req = await axios.post("http://localhost:8001/api/users/createUser",{
+      userName,
+      email,
+      password
+     });
+     const data = req.data;
+     console.log(data);
+  } catch (error) {
+    
+  }
 };
 
   return (

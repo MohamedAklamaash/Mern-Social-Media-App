@@ -9,7 +9,12 @@ const postsRoutes = require("./routes/postRoutes");
 const convoRoutes = require("./routes/ConversationRoutes");
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3000",
+  // Add other CORS options if needed
+};
+
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(morgan("common"));
 const mongoConnection = require("./mongoConnection")();
