@@ -1,6 +1,6 @@
 import React from "react";
-
-const Messages = ({ own }) => {
+import {format} from "timeago.js"; 
+const Messages = ({ own,message }) => {
   return (
     <div className={`mt-10 flex flex-col ${own ? "items-end" : "items-start"}`}>
       <main className="flex">
@@ -14,10 +14,10 @@ const Messages = ({ own }) => {
             own ? "self-end bg-gray-400" : "self-start bg-blue-500"
           }`}
         >
-          This is test message
+          {message.text}
         </p>
       </main>
-      <span>1 hr ago</span>
+      <span>{format(message.createdAt)}</span>
     </div>
   );
 };

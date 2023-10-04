@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setUserData } from "../store/StoreSlices/userSlice";
 const SignupPage = () => {
-  const { profileUrl } = useSelector((state) => state.user);
+  let { profileUrl } = useSelector((state) => state.user);
   const [userName, setuserName] = useState("");
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -18,7 +18,7 @@ const SignupPage = () => {
     }
     try {
       console.log(profileUrl);
-      const profileUrl = profileUrl[0];
+      profileUrl = profileUrl[0];
       const req = await axios.post(
         "http://localhost:8001/api/users/createUser",
         {
@@ -29,9 +29,8 @@ const SignupPage = () => {
         }
       );
       const data = req.data;
-      dispath(setUserData(data.user));
-      console.log(data.user);
-
+      dispatch(setUserData(data.user));
+      localStorage.setItem("userId", data.user._id);
       navigate("/");
     } catch (error) {}
   };

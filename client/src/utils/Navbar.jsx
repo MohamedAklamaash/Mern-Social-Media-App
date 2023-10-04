@@ -8,7 +8,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <header className="p-3 bg-blue-600 h-[6.7vmin] flex items-center justify-between text-white font-semibold max-md:hidden ">
+      <header className="p-3 bg-blue-600 h-[7vmin] flex items-center justify-between text-white font-semibold max-md:hidden ">
         <div>
           <h1 className="text-xl cursor-pointer" onClick={() => navigate("/")}>
             Social-Media

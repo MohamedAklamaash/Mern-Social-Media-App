@@ -15,9 +15,10 @@ const LoginPage = () => {
           password
         });
         const data = res.data;
+        console.log("Data in login page:",data.user);
         dispatch(setUserData(data.user));
         localStorage.setItem("userId",data.user._id);
-        navigate("/")
+        navigate("/");
     } catch (error) {
       console.log("Error in login Page")
       navigate("/login");

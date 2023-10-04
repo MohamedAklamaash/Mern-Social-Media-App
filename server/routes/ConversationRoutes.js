@@ -3,7 +3,7 @@ const { newConversation, getConvoOfUser, newMessage, getConvowithConvoId } = req
 const router = require("express").Router();
 
 router.route("/newConversation").post(newConversation);
-router.route("/convo/:userId").get(getConvoOfUser);
+router.route("/convo/:userId").post(getConvoOfUser);
 router.route("/sendChat").post(newMessage);
 router.route("/conversation/:convoId").get(getConvowithConvoId);
 
