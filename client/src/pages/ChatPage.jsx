@@ -7,7 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 
-const socket = io.connect("http://localhost:8001");
+const socket = io.connect("ws://localhost:5001");
 
 const ChatPage = () => {
   const { userDetails } = useSelector((state) => state.user);
@@ -76,11 +76,11 @@ const ChatPage = () => {
   };
   
   useEffect(()=>{
-    socket.emit("send_message", { userId, newMsg });
+    socket.emit("addUser", { userId});
     socket.on("receive_msg",(data)=>{
       console.log(data);
     });
-  })
+  },[])
   useEffect(() => {
     fetchConvos();
   }, []); // Run once on component mount
