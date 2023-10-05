@@ -1,19 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import OnlineFriends from "../components/OnlineFriends";
 import Conversation from "../components/Conversation";
 import Messages from "../components/Messages";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:8001");
+
 const ChatPage = () => {
   const { userDetails } = useSelector((state) => state.user);
   const [conversations, setConversations] = useState([]);
   const [messages, setMessages] = useState([]);
   const [currChat, setCurrChat] = useState(null);
-  const [convoId, setConvoId] = useState("");
+  const [conversationId, setconversationId] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [newMsg, setnewMsg] = useState("");
+  const scrollRef = useRef();
+  
   const fetchConvos = async () => {
     try {
       const userId = localStorage.getItem("userId");
@@ -31,32 +37,61 @@ const ChatPage = () => {
     }
   };
 
+  const userId = localStorage.getItem("userId");
+
   const getMessages = async () => {
     try {
-      if (convoId) {
+      if (conversationId) {
         const res = await axios.get(
-          `http://localhost:8001/api/chat/conversation/${convoId}`
+          `http://localhost:8001/api/chat/conversation/${conversationId}`
         );
         const messagesArray = Object.keys(res.data).map((key) => res.data[key]);
         setMessages(messagesArray[0]);
-        console.log(messagesArray[0]);
       }
     } catch (error) {
       console.log(error);
     }
   };
-
+  const handleNewMessages = async (e) => {
+    try {
+      if (conversationId === "") {
+        alert("Select any user to send a message!");
+        return;
+      }
+      e.preventDefault();
+      const senderId = localStorage.getItem("userId");
+      const newMessage = await axios.post(
+        "http://localhost:8001/api/chat/sendChat",
+        {
+          conversationId,
+          senderId,
+          text: newMsg,
+        }
+      );
+      const data = newMessage.data;
+      setnewMsg("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  useEffect(()=>{
+    socket.emit("send_message", { userId, newMsg });
+    socket.on("receive_msg",(data)=>{
+      console.log(data);
+    });
+  })
   useEffect(() => {
     fetchConvos();
   }, []); // Run once on component mount
 
   useEffect(() => {
     getMessages();
-  }, [convoId]); // Run when convoId changes
+  }, [conversationId]); // Run when conversationId changes
 
   const handleMessages = (convo) => {
     setCurrChat(true);
-    setConvoId(convo._id);
+    setconversationId(convo._id);
   };
   if (!userDetails) {
     return (
@@ -83,14 +118,16 @@ const ChatPage = () => {
         })}
       </div>
       <div className="flex-[2] p-3 items-end">
-        {currChat && messages.length!==0 ? (
+        {messages.length !== 0 ? (
           messages.map((c) => {
             return (
               <>
-                <Messages
-                  message={c}
-                  own={localStorage.getItem("userId") === c?.senderId}
-                />
+                <div ref={scrollRef}>
+                  <Messages
+                    message={c}
+                    own={localStorage.getItem("userId") === c?.senderId}
+                  />
+                </div>
               </>
             );
           })
@@ -102,8 +139,13 @@ const ChatPage = () => {
           <textarea
             placeholder="Write Something"
             className="p-4 h-[30vh] w-[70vh]"
+            value={newMsg}
+            onChange={(event) => setnewMsg(event.target.value)}
           />
-          <button className="p-4 bg-blue-500 text-white rounded-lg font-semibold">
+          <button
+            className="p-4 bg-blue-500 text-white rounded-lg font-semibold"
+            onClick={handleNewMessages}
+          >
             Send
           </button>
         </div>

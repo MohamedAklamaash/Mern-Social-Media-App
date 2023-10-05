@@ -1,6 +1,12 @@
 const conversationSchema = require("../models/ConversationSchema");
 const messageSchema = require("../models/MessageSchema");
-
+const {Server} = require("socket.io");
+const io = new Server({
+    cors:{
+        origin:"http://localhost:3000",
+        methods:["GET","POST"]
+    },
+})
 const newConversation = async(req,res)=>{
     const newConvo = new conversationSchema({
         members:[req.body.senderId,req.body.receiverId]
@@ -30,10 +36,23 @@ const getConvoOfUser = async(req,res)=>{
     }
 }
 
+const toSend = [];
+
+const checkDuplicateUsers = (userId,socketId)=>{
+    !toSend.some(user=>user.userId === userId)&&toSend.push({userId,socketId})
+}
+
 const newMessage = async (req, res) => {
   const message = new messageSchema(req.body);
   try {
     const savedMsg = await message.save();
+    io.on("connection",(socket)=>{
+        socket.on("send_message",(data)=>{
+            console.log(data);
+            checkDuplicateUsers(data.userId,socket.id);
+            socket.to(toSend[0].socketId).emit("receive_msg", data.newMsg);
+        })
+    })
     return res.status(201).json({ msg: savedMsg });
   } catch (error) {
     console.log("Error in creating a new Message");
