@@ -118,7 +118,7 @@ const ChatPage = () => {
         })}
       </div>
       <div className="flex-[2] p-3 items-end">
-        {messages.length !== 0 ? (
+        {currChat && messages.length!==0 ? (
           messages.map((c) => {
             return (
               <>
