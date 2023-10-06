@@ -105,8 +105,10 @@ const ChatPage = () => {
   useEffect(()=>{
     console.log(currChat);
     console.log(arrivalChat);
-    arrivalChat && currChat?.includes(arrivalChat.userId);//userId here is actually sender's id
-    setMessages((prev)=>[...prev,arrivalChat]);
+    arrivalChat &&
+      currChat?.includes(arrivalChat.userId) &&
+      setMessages((prev) => [...prev, arrivalChat]);//userId here is actually sender's id
+    console.log(messages);
   },[arrivalChat,currChat]);
 
   if (!userDetails) {
