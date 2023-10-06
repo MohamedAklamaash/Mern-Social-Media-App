@@ -7,19 +7,20 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 
-const socket = io.connect("ws://localhost:5001");
+const socket = io.connect("http://localhost:7001");
 
 const ChatPage = () => {
   const { userDetails } = useSelector((state) => state.user);
   const [conversations, setConversations] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [currChat, setCurrChat] = useState(null);
+  const [currChat, setCurrChat] = useState([]);
   const [conversationId, setconversationId] = useState("");
+  const [msgtosendtoSocket, setmsgtosendtoSocket] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [newMsg, setnewMsg] = useState("");
   const scrollRef = useRef();
-  
+
   const fetchConvos = async () => {
     try {
       const userId = localStorage.getItem("userId");
@@ -58,7 +59,6 @@ const ChatPage = () => {
         alert("Select any user to send a message!");
         return;
       }
-      e.preventDefault();
       const senderId = localStorage.getItem("userId");
       const newMessage = await axios.post(
         "http://localhost:8001/api/chat/sendChat",
@@ -68,19 +68,13 @@ const ChatPage = () => {
           text: newMsg,
         }
       );
-      const data = newMessage.data;
+      setmsgtosendtoSocket(newMsg);
       setnewMsg("");
     } catch (error) {
       console.log(error);
     }
   };
-  
-  useEffect(()=>{
-    socket.emit("addUser", { userId});
-    socket.on("receive_msg",(data)=>{
-      console.log(data);
-    });
-  },[])
+
   useEffect(() => {
     fetchConvos();
   }, []); // Run once on component mount
@@ -90,9 +84,22 @@ const ChatPage = () => {
   }, [conversationId]); // Run when conversationId changes
 
   const handleMessages = (convo) => {
-    setCurrChat(true);
+    setCurrChat(convo.members);
     setconversationId(convo._id);
   };
+  const receiverId = currChat.filter((user) => user !== userId)[0];
+  useEffect(() => {
+    socket.emit("addUser", { userId });
+    console.log(userId, msgtosendtoSocket, receiverId);
+    socket.emit("send_message", {
+      userId,
+      msgtosendtoSocket,
+      receiverId,
+    });
+    socket.on("receive_message",(data)=>{
+      console.log(data);
+    });
+  }, [msgtosendtoSocket]);
   if (!userDetails) {
     return (
       <div className="flex items-center justify-center h-[100vh] w-[100%] font-mono text-4xl">
@@ -118,7 +125,7 @@ const ChatPage = () => {
         })}
       </div>
       <div className="flex-[2] p-3 items-end">
-        {currChat && messages.length!==0 ? (
+        {messages.length !== 0 ? (
           messages.map((c) => {
             return (
               <>
