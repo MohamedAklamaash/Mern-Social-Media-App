@@ -33,19 +33,14 @@ io.on("connection", (socket) => {
   console.log("user connected");
 
   socket.on("addUser", (data) => {
-    console.log("in add user event");
+    console.log("in add user event",data);
     removeDupUserId(data.userId, socket.id);
   });
 
-  socket.on("send_message", ({ senderId, receiverId, text }) => {
-    console.log(senderId);
-    const receiver = isReceiverIdPresent(senderId);
-    console.log(receiver);
-    const set = {
-      senderId,
-      text,
-    };
-    socket.to(receiver?.socketId).emit("receive_message",set);
+  socket.on("send_message", (data) => {
+    console.log(data);
+    const receiver = isReceiverIdPresent(data.userId);
+    socket.to(arr[0].socketId).emit("receive_message",data);
   });
 
   socket.on("disconnect", () => {

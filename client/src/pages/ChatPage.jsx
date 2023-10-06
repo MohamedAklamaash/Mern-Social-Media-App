@@ -18,6 +18,7 @@ const ChatPage = () => {
   const [msgtosendtoSocket, setmsgtosendtoSocket] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [arrivalChat, setarrivalChat] = useState([]);
   const [newMsg, setnewMsg] = useState("");
   const scrollRef = useRef();
 
@@ -90,16 +91,24 @@ const ChatPage = () => {
   const receiverId = currChat.filter((user) => user !== userId)[0];
   useEffect(() => {
     socket.emit("addUser", { userId });
-    console.log(userId, msgtosendtoSocket, receiverId);
-    socket.emit("send_message", {
+    const msg = {
       userId,
       msgtosendtoSocket,
       receiverId,
-    });
+    };
+    socket.emit("send_message",msg);
     socket.on("receive_message",(data)=>{
-      console.log(data);
+      setarrivalChat(data);
     });
   }, [msgtosendtoSocket]);
+
+  useEffect(()=>{
+    console.log(currChat);
+    console.log(arrivalChat);
+    arrivalChat && currChat?.includes(arrivalChat.userId);//userId here is actually sender's id
+    setMessages((prev)=>[...prev,arrivalChat]);
+  },[arrivalChat,currChat]);
+
   if (!userDetails) {
     return (
       <div className="flex items-center justify-center h-[100vh] w-[100%] font-mono text-4xl">
