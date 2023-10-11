@@ -4,6 +4,7 @@ import UserDetailsSection from "../components/UserDetailsSection";
 import Feeds from "../components/Feeds";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Friends from "../components/Friends";
 const ProfilePage = () => {
   const { userId } = useParams();
 
@@ -16,8 +17,7 @@ const ProfilePage = () => {
       `http://localhost:8001/api/users/getUserDetails/${userId}`
     );
     setuserDetails(other);
-    console.log(other);
-    setfriendsId([...other.followings, ...other.followers]);
+    setfriendsId(...other.followings,...other.followers);
     console.log(friendsId);
   };
   useEffect(() => {
@@ -27,6 +27,11 @@ const ProfilePage = () => {
     <div>
       <UserProfileCover userDetails={userDetails} />
       {localStorage.getItem("userId") === userId ? <UserDetailsSection /> : ""}
+      {friendsId.map((friendId)=>{
+        return(
+          <Friends id={friendId}/>
+        )
+      })}
     </div>
   );
 };

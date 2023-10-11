@@ -1,14 +1,30 @@
-import React from 'react'
-
-const Friends = ({details}) => {
+import React,{useState,useEffect} from 'react'
+import axios from "axios";
+import dummyLogo from "../assets/dummyLogo.jpeg";
+import { useNavigate } from 'react-router-dom';
+const Friends = ({id}) => {
+  const [userDetail, setuserDetail] = useState({});
+  const navigate = useNavigate();
+  const userDetails = async()=>{
+    const {
+      data: { other },
+    } = await axios.get(
+      `http://localhost:8001/api/users/getUserDetails/${id}`
+    );
+  }
+  useEffect(()=>{
+    userDetails();
+  },[id]);
   return (
     <div className="mb-4">
       <div className="relative flex items-center justify-start gap-3 ">
-        <img
-          src="https://avatars.githubusercontent.com/u/111295679?v=4"
-          alt="Online Friend"
-          className="w-16 rounded-full h-16 "
-        />
+        <div onClick={()=>navigate(`http://localhost:3000/profilepage/${id}`)}>
+          <img
+            src={dummyLogo || userDetail?.profileCover}
+            alt="Online Friend"
+            className="w-16 rounded-full h-16 "
+          />
+        </div>
         <span>Mohamed Aklamaash</span>
       </div>
     </div>
