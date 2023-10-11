@@ -1,8 +1,8 @@
 const userSchema = require("../models/userSchema");
 const bcrpypt = require("bcryptjs");
-
+const ApiFeatures = require("../features/ApiFeatures");
 const createUser = async (req, res) => {
-  const { userName, password, email ,profilePicture } = req.body;
+  const { userName, password, email, profilePicture } = req.body;
   const user = await userSchema.create({
     profilePicture,
     userName,
@@ -133,6 +133,14 @@ const unfollowUser = async (req, res) => {
   }
 };
 
+const getSearchResults = async (req, res) => {
+  const apiFeature = new ApiFeatures(userSchema.find(), req.query).search();
+  const details = await apiFeature.query;
+  if (!details) {
+    return res.json({ success: false });
+  }
+  res.json({ details });
+};
 
 module.exports = {
   createUser,
@@ -141,5 +149,6 @@ module.exports = {
   deleteUser,
   getUserDetails,
   followUser,
-  unfollowUser
+  unfollowUser,
+  getSearchResults
 };

@@ -12,8 +12,7 @@ const userSlice = createSlice({
   },
   reducers: {
     setProfileUrl(state, action) {
-      state.profileUrl =
-        state.profileUrl.length > 1 ? state.profileUrl.pop() : [];
+      state.profileUrl = state.profileUrl.length > 1 ? state.profileUrl.pop() : [];
       state.profileUrl.push(action.payload);
       console.log(state.profileUrl);
     },

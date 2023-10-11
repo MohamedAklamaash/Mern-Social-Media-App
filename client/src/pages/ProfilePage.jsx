@@ -48,7 +48,6 @@ const ProfilePage = () => {
           friendsId.map((id) => {
             return (
               <div>
-                {console.log(id)}
                 <Friends id={id} />
               </div>
             );
