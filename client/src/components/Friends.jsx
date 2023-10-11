@@ -3,6 +3,7 @@ import axios from "axios";
 import dummyLogo from "../assets/dummyLogo.jpeg";
 import { useNavigate } from 'react-router-dom';
 const Friends = ({id}) => {
+  console.log(id);
   const [userDetail, setuserDetail] = useState({});
   const navigate = useNavigate();
   // const userDetails = async()=>{

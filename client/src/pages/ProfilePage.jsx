@@ -4,7 +4,7 @@ import UserDetailsSection from "../components/UserDetailsSection";
 import Feeds from "../components/Feeds";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import Friends from "../components/Friends";
+// import Friends from "../components/Friends";
 const ProfilePage = () => {
   const { userId } = useParams();
 
@@ -17,7 +17,7 @@ const ProfilePage = () => {
       `http://localhost:8001/api/users/getUserDetails/${userId}`
     );
     setuserDetails(other);
-    setfriendsId(...other.followings,...other.followers);
+    setfriendsId([...other.followers])
     console.log(friendsId);
   };
   useEffect(() => {
