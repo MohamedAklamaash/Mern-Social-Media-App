@@ -27,11 +27,11 @@ const ProfilePage = () => {
     <div>
       <UserProfileCover userDetails={userDetails} />
       {localStorage.getItem("userId") === userId ? <UserDetailsSection /> : ""}
-      {friendsId.map((friendId)=>{
+      {/* {friendsId.length !==0 && friendsId.map((friendId)=>{
         return(
           <Friends id={friendId}/>
         )
-      })}
+      })} */}
     </div>
   );
 };
