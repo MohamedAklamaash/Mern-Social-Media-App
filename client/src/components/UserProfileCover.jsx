@@ -45,10 +45,6 @@ const UserProfileCover = ({userDetails}) => {
             </span>
           </h1>
         </div>
-        <h1 className="text-4xl font-medium">User Friends</h1>
-        <div className="grid md:grid-cols-3 grid-cols-2 ">
-          <Friends />
-        </div>
       </div>
     </div>
   );

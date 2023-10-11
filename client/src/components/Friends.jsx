@@ -6,18 +6,19 @@ const Friends = ({id}) => {
   console.log(id);
   const [userDetail, setuserDetail] = useState({});
   const navigate = useNavigate();
-  // const userDetails = async()=>{
-  //   const {
-  //     data: { other },
-  //   } = await axios.get(
-  //     `http://localhost:8001/api/users/getUserDetails/${id}`
-  //   );
-  // }
-  // useEffect(()=>{
-  //   userDetails();
-  // },[id]);
+  const userDetails = async()=>{
+    const {
+      data: { other },
+    } = await axios.get(
+      `http://localhost:8001/api/users/getUserDetails/${id}`
+    );
+    setuserDetail(other);
+  }
+  useEffect(()=>{
+    userDetails();
+  },[id]);
   return (
-    <div className="mb-4">
+    <div className="mb-4 ">
       <div className="relative flex items-center justify-start gap-3 ">
         <div
           onClick={() =>

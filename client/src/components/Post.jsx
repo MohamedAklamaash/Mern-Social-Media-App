@@ -76,7 +76,7 @@ const Post = () => {
                   <img
                     src={postedUserDetails[i]?.profilePicture}
                     alt="Profile Pic"
-                    className="w-12 h-12  rounded-full"
+                    className="w-12 h-12  rounded-full cursor-pointer"
                   />
                 </div>
                 <span className="text-lg text-bold font-semibold">
