@@ -1,13 +1,15 @@
-import React, { useEffect, useState ,useRef} from "react";
+import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import CommentIcon from "@mui/icons-material/Comment";
 import axios from "axios";
+import ProfilePage from "../pages/ProfilePage";
+import {useNavigate} from "react-router-dom";
 const Post = () => {
   const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
   const [likes, setlikes] = useState(1);
-  const handler = useRef(1);
   const [postedUserDetails, setpostedUserDetails] = useState([]);
   const [likedBy, setlikedBy] = useState([]);
   const [isLiked, setisLiked] = useState(false);
@@ -51,10 +53,6 @@ const Post = () => {
     {
       likedBy.pop(0);
     }
-   else {
-      alert("Error in Liking the post!");
-      window.location.reload();
-    }
   };
 
   useEffect(() => {
@@ -74,11 +72,13 @@ const Post = () => {
           <div className="mt-10 shadow-xl">
             <main className=" p-4 shadow-2xl rounded-md">
               <div className="flex items-center justify-between">
-                <img
-                  src={postedUserDetails[i]?.profilePicture}
-                  alt="Profile Pic"
-                  className="w-12 h-12  rounded-full"
-                />
+                <div onClick={()=>navigate(`/profilepage/${postedUserDetails[i]?._id}`)}>
+                  <img
+                    src={postedUserDetails[i]?.profilePicture}
+                    alt="Profile Pic"
+                    className="w-12 h-12  rounded-full"
+                  />
+                </div>
                 <span className="text-lg text-bold font-semibold">
                   {postedUserDetails[i]?.userName || " "}
                 </span>
@@ -98,13 +98,9 @@ const Post = () => {
                   <button onClick={() => LikeHandler(post._id)}>
                     <FavoriteBorderOutlinedIcon className="text-white bg-red-600 rounded-full" />
                   </button>
-                  {
-                    likedBy.map((liked)=>{
-                      return(
-                        <h3>{liked}</h3>
-                      )
-                    })
-                  }
+                  {likedBy.map((liked) => {
+                    return <h3>{liked}</h3>;
+                  })}
                 </main>
                 <CommentIcon />
                 <span className="text-xl">....</span>

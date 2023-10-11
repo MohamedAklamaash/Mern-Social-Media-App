@@ -19,6 +19,10 @@ const postSchema = new mongoose.Schema({
     userName:{
         type:String,
         default:""
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now()
     }
 })
 

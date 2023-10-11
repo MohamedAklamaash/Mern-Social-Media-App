@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Friends = () => {
+const Friends = ({details}) => {
   return (
     <div className="mb-4">
       <div className="relative flex items-center justify-start gap-3 ">

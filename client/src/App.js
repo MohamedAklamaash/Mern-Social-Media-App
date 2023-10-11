@@ -23,7 +23,7 @@ const App = () => {
             <Route element={<SignupPage />} path="/signUp" />
             <Route element={<ErrorHandlingPage />} path="*" />
             <Route element={<ChatPage/>} path="/chat"/>
-            <Route element={<ProfilePage />} path="/profilepage" />
+            <Route element={<ProfilePage />} path="/profilepage/:userId" />
           </Routes>
         </Router>
       </Provider>
