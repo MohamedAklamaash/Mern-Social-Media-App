@@ -29,9 +29,9 @@ const userSlice = createSlice({
       })
       .addCase(userData.fulfilled, (state, action) => {
         state.status = statuses.idle;
-        state.userDetails = action.payload.other;
-        state.profileUrl = action.payload.other.profilePicture;
-        state.userName = action.payload.other.userName;
+        state.userDetails = action.payload?.other;
+        state.profileUrl = action.payload?.other?.profilePicture;
+        state.userName = action.payload?.other?.userName;
         console.log("User Data:",state.userName);
       })
       .addCase(userData.rejected, (state, action) => {

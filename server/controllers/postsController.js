@@ -47,18 +47,20 @@ const likeOrDislikePost = async (req, res) => {
     if (!post.likes.includes(userId)) {
       await post.updateOne({ $push: { likes: userId } });
       await post.save();
+      const userDetails = await userSchema.findById(userId);
       return res
         .status(200)
-        .json({ success: true, msg: "This post has been liked!" });
+        .json({ success: true, userName:userDetails.userName });
     } else {
       await post.updateOne({ $pull: { likes: userId } });
       await post.save();
       return res
         .status(200)
-        .json({ success: true, msg: "You removed your like" });
+        .json({ success: false, msg: "You removed your like" });
     }
   } catch (error) {
     console.log("Error in liking the post");
+    return res.json({success:false});
   }
 };
 

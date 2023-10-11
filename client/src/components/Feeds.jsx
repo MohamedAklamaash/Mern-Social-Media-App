@@ -6,11 +6,7 @@ const Feeds = () => {
   return (
     <main className="flex-[7] p-3 mt-4">
       <UserDetailsSection />
-      <div className=" grid grid-cols-2 max-md:grid-cols-1">
-        <Post />
-        <Post />
-        <Post />
-        <Post />
+      <div className=" grid max-md:grid-cols-1">
         <Post />
       </div>
     </main>

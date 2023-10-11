@@ -15,6 +15,10 @@ const postSchema = new mongoose.Schema({
     likes:{
         type:Array,
         default:[]
+    },
+    userName:{
+        type:String,
+        default:""
     }
 })
 
