@@ -5,7 +5,7 @@ class ApiFeatures {
     }
     search() {
         const keyword = this.queryStr.keyword?{
-            productName:{
+            userName:{
               $regex:this.queryStr.keyword,
               $options:"i",
             }
