@@ -10,6 +10,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ChatPage from "./pages/ChatPage";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import SearchPage from "./pages/SearchPage";
 const App = () => {
   
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route element={<SignupPage />} path="/signUp" />
             <Route element={<ErrorHandlingPage />} path="*" />
             <Route element={<ChatPage/>} path="/chat"/>
+            <Route element={<SearchPage/>} path="/search"/>
             <Route element={<ProfilePage />} path="/profilepage/:userId" />
           </Routes>
         </Router>

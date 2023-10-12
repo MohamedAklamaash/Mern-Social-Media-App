@@ -1,16 +1,24 @@
-import React,{useState} from "react";
+import React, { useState, useRef } from "react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import ChatIcon from "@mui/icons-material/Chat";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import { Link, useNavigate } from "react-router-dom";
+import dummyLogo from "../assets/dummyLogo.jpeg";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 const Navbar = () => {
   const userId = localStorage.getItem("userId");
+  const loadCounter = useRef(0);
+  const { profileUrl } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [keyword, setkeyword] = useState("");
   const navigate = useNavigate();
-  const handleClick = async()=>{
-    
-  }
+  const handleClick = async () => {
+
+    navigate(`/search?keyword=${keyword}`);
+    setkeyword("");
+  };
   return (
     <div>
       <header className="p-3 bg-blue-600 h-[7vmin] flex items-center justify-between text-white font-semibold max-md:hidden ">
@@ -24,10 +32,21 @@ const Navbar = () => {
             type="text"
             placeholder="Search for friends posts or video"
             className="rounded-full w-[450px] pl-3 pr-10 py-2 text-black"
-            onChange={(ev)=>setkeyword(ev.target.value)}
+            onChange={(ev) => {
+              setkeyword(ev.target.value);
+            }}
+            value={keyword}
+            onKeyDown={(event) => {
+              const keycode = event.keyCode;
+              if (keycode === 13) {
+                handleClick();
+              }
+            }}
+          />
+          <SearchOutlinedIcon
+            className="absolute right-3 top-2/4 transform -translate-y-2/4 text-black cursor-pointer"
             onClick={handleClick}
           />
-          <SearchOutlinedIcon className="absolute right-3 top-2/4 transform -translate-y-2/4 text-black cursor-pointer" />
         </div>
         <div className="flex items-center justify-center gap-2 cursor-pointer">
           <h1>HomePage</h1>
