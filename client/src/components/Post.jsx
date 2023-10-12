@@ -5,6 +5,7 @@ import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import CommentIcon from "@mui/icons-material/Comment";
 import axios from "axios";
 import ProfilePage from "../pages/ProfilePage";
+import { format } from "timeago.js";
 import {useNavigate} from "react-router-dom";
 const Post = () => {
   const userId = localStorage.getItem("userId");
@@ -82,7 +83,7 @@ const Post = () => {
                 <span className="text-lg text-bold font-semibold">
                   {postedUserDetails[i]?.userName || " "}
                 </span>
-                <span> 5 mins ago</span>
+                <span>{format(post?.createdAt) || " "}</span>
                 <MoreVertIcon />
               </div>
               <div className="p-4"></div>

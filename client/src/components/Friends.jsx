@@ -29,7 +29,7 @@ const Friends = ({id}) => {
           <img
             src={dummyLogo || userDetail?.profileCover}
             alt="Online Friend"
-            className="w-16 rounded-full h-16 "
+            className="w-16 rounded-full h-16 cursor-pointer"
           />
         </div>
         <span>{userDetail?.userName || " "}</span>
