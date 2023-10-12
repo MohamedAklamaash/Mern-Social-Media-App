@@ -84,8 +84,8 @@ const followUser = async (req, res) => {
     );
     if (userId === req.params.id) {
       return res
-        .status(403)
-        .json({ success: false, msg: "You can't follow yourself" });
+        .status(403)//here we are returning null just to identify that we are in user's profile page..
+        .json({ success: null, msg: "You can't follow yourself" });
     }
     if (!userThatThecurrUserisGoingToFollow.followers.includes(userId)) {
       await userThatThecurrUserisGoingToFollow.updateOne({
@@ -96,6 +96,9 @@ const followUser = async (req, res) => {
         success: true,
         msg: ` This ${userId} is following this ${req.params.id} userId`,
       });
+    }
+    else{
+      return res.status(200).json({success:false});
     }
   } catch (error) {}
 };
