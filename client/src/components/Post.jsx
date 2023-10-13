@@ -10,6 +10,7 @@ import {useNavigate} from "react-router-dom";
 const Post = () => {
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
+  const [isFollowing, setisFollowing] = useState([]);
   const [likes, setlikes] = useState(1);
   const [postedUserDetails, setpostedUserDetails] = useState([]);
   const [likedBy, setlikedBy] = useState([]);
@@ -32,6 +33,14 @@ const Post = () => {
 
     setpostedUserDetails(postedUserDetails);
     console.log(postedUserDetails);
+    postedUserDetails.map((p)=>{
+      if (p.followers.includes(userId) || p.followings.includes(userId)) {
+        isFollowing.push(true);
+      }else{
+        isFollowing.push(false);
+      }
+    })
+    console.log(isFollowing);
   };
 
   const LikeHandler = async (postId) => {
@@ -73,7 +82,11 @@ const Post = () => {
           <div className="mt-10 shadow-xl">
             <main className=" p-4 shadow-2xl rounded-md">
               <div className="flex items-center justify-between">
-                <div onClick={()=>navigate(`/profilepage/${postedUserDetails[i]?._id}`)}>
+                <div
+                  onClick={() =>
+                    navigate(`/profilepage/${postedUserDetails[i]?._id}`)
+                  }
+                >
                   <img
                     src={postedUserDetails[i]?.profilePicture}
                     alt="Profile Pic"
@@ -83,7 +96,7 @@ const Post = () => {
                 <span className="text-lg text-bold font-semibold">
                   {postedUserDetails[i]?.userName || " "}
                 </span>
-                <span>{format(post?.createdAt) || " "}</span>
+                <button>{isFollowing[0] ? "UnFollow" : "Follow"}</button>
                 <MoreVertIcon />
               </div>
               <div className="p-4"></div>
@@ -102,6 +115,7 @@ const Post = () => {
                   {likedBy.map((liked) => {
                     return <h3>{liked}</h3>;
                   })}
+                  <span>{format(post?.createdAt) || " "}</span>
                 </main>
                 <CommentIcon />
                 <span className="text-xl">....</span>
