@@ -15,7 +15,6 @@ const Navbar = () => {
   const [keyword, setkeyword] = useState("");
   const navigate = useNavigate();
   const handleClick = async () => {
-
     navigate(`/search?keyword=${keyword}`);
     setkeyword("");
   };
@@ -53,8 +52,10 @@ const Navbar = () => {
           <h1>TimeLine</h1>
         </div>
         <div className="flex items-center md:gap-2 relative ">
-          <PersonIcon className="cursor-pointer" />
-          <span className="bg-red-600 rounded-full w-[1.4rem] h-[1.4rem] text-center  text-white absolute mb-6 ml-2">
+          <Link to="/login">
+            <PersonIcon className="cursor-pointer" />
+          </Link>
+          <span className="bg-red-600 rounded-full w-[1.4rem] h-[1.4rem] text-center  text-white absolute mb-6 ml-12">
             2
           </span>
           <Link to="/chat">

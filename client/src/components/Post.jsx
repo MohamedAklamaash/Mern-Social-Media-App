@@ -6,7 +6,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import axios from "axios";
 import ProfilePage from "../pages/ProfilePage";
 import { format } from "timeago.js";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Post = () => {
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
@@ -33,13 +33,13 @@ const Post = () => {
 
     setpostedUserDetails(postedUserDetails);
     console.log(postedUserDetails);
-    postedUserDetails.map((p)=>{
+    postedUserDetails.map((p) => {
       if (p.followers.includes(userId) || p.followings.includes(userId)) {
         isFollowing.push(true);
-      }else{
+      } else {
         isFollowing.push(false);
       }
-    })
+    });
     console.log(isFollowing);
   };
 
@@ -59,12 +59,35 @@ const Post = () => {
       setisLiked(!isLiked);
       likedBy.push(data.userName);
     }
-    if(!data.success)
-    {
+    if (!data.success) {
       likedBy.pop(0);
     }
   };
 
+  const handleFollowUser = async (followId, isAlreadyFollowing, index) => {
+    if (!isAlreadyFollowing) {
+      const { data } = await axios.put(
+        `http://localhost:8001/api/users/followUser/${followId}`,
+        {
+          userId,
+        }
+      );
+      console.log(data);
+      isFollowing[index] = true;
+    } else {
+      const { data } = await axios.put(
+        `http://localhost:8001/api/users/unfollowUser/${followId}`,
+        {
+          userId,
+        }
+      );
+      console.log(data);
+      isFollowing[index] = false;
+    }
+  };
+  useEffect(() => {
+    handleFollowUser();
+  }, []);
   useEffect(() => {
     getAllPosts();
   }, []);
@@ -96,7 +119,18 @@ const Post = () => {
                 <span className="text-lg text-bold font-semibold">
                   {postedUserDetails[i]?.userName || " "}
                 </span>
-                <button>{isFollowing[0] ? "UnFollow" : "Follow"}</button>
+                <button
+                  className="p-4 font-sans text-lg"
+                  onClick={() =>
+                    handleFollowUser(
+                      postedUserDetails[i]?._id,
+                      isFollowing[i],
+                      i
+                    )
+                  }
+                >
+                  {isFollowing[i] ? "UnFollow" : "Follow"}
+                </button>
                 <MoreVertIcon />
               </div>
               <div className="p-4"></div>
