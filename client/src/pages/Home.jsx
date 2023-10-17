@@ -5,8 +5,10 @@ import RightBar from './RightBar';
 import {userData} from "../store/StoreSlices/userSlice";
 import { useDispatch,useSelector } from 'react-redux';
 import { statuses } from '../store/constants/statuses';
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { userDetails , status } = useSelector((state) => state.user);
   useEffect(()=>{
     dispatch(userData());
@@ -18,6 +20,9 @@ const Home = () => {
         <h1 className="text-4xl text-black">Loading....</h1>
       </div>
     );
+  }
+  if(!localStorage.getItem("userId")){
+    navigate("/login");
   }
   return (
     <div className=''>      

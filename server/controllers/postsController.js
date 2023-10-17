@@ -96,6 +96,26 @@ const getUsersPosts = async (req, res) => {
   }
 };
 
+const postComments = async (req, res) => {
+  const postId = req.params.id;
+  const { userId, comments } = req.body;
+  const user = await userSchema.findById(userId);
+  if (!user) {
+    return res.status(404).json({ success: false });
+  }
+  const post = await postSchema.findById(postId);
+  await post.updateOne({ $push: { comments } });
+  await post.updateOne({$push:{comments:{userName:user.userName}}});
+  await post.save();
+  return res.status(200).json({ success: true ,user });
+};
+
+const getAllCommentsOfPost = async (req, res) => {
+  const postId = req.params.id;
+  const post = await postSchema.findById(postId);
+  return res.status(200).json({ comments: post.comments });
+};
+
 module.exports = {
   createPost,
   updatePost,
@@ -103,5 +123,7 @@ module.exports = {
   likeOrDislikePost,
   getPostDetails,
   getPosts,
-  getUsersPosts
+  getUsersPosts,
+  getAllCommentsOfPost,
+  postComments,
 };
